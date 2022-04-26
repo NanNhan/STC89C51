@@ -1,0 +1,61 @@
+#include <REGX52.H>
+#include<INTRINS.H>
+void Delay(unsigned int xms)		//@11.0592MHz
+{
+	unsigned char i, j, k;
+	while(xms--)
+	{
+		_nop_();
+		i = 4;
+		j = 129;
+		k = 119;
+		do
+		{
+			do
+			{
+				while (--k);
+			} while (--j);
+		} while (--i);
+		
+	}
+}
+
+void main()
+{
+	unsigned char LEDNum;
+	P2 = ~0x01;
+	while(1)
+	{
+		if(P3_1 == 0)
+		{
+			Delay(1);
+			while(P3_1 == 0)
+			{
+				;
+			}
+			Delay(1);
+			LEDNum++;
+			if(LEDNum>=8)
+			{
+				LEDNum = 0;
+			}
+			P2 = ~(0x01<<LEDNum);
+		}
+		if(P3_0 == 0)
+		{
+			Delay(1);
+			while(P3_0 == 0)
+			{;}
+			Delay(1);
+			if(LEDNum == 0)
+			{
+				LEDNum == 0x111;
+			}
+			else
+			{
+				LEDNum--;
+			}
+			P2 = ~(0x01<<LEDNum);
+		}
+	}
+}
